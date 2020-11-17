@@ -7,7 +7,7 @@ Login
 
 {% block content %}
 
-<div class="container">
+<div class="container" action="{{ url_for('login') }}" method="post">
     <form id="login-form-id">
         <input id="login-name" type="text" class="form-control" name="login-name" placeholder="Username" required>
         <input id="login-password" type="password" class="form-control" name="login-password" placeholder="password" required minlength="8">
@@ -16,7 +16,7 @@ Login
     </form>
 </div>
 <div class="container">
-    <form id="signup-form-in">
+    <form id="signup-form-in" action="{{ url_for('create_account') }}" method="post">
         <button class="form-control btn btn-primary" id="signup-button" onclick="return true"> Sign up</button>
     </form>
 </div>

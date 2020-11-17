@@ -1,24 +1,31 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort 
+from flask import session, flash
+import os
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config["SECRET_KEY"] = os.urandom(32)
 
-@app.route("/login/")
+@app.route("/login/", methods=["GET, POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    if request.method == "POST":
+        data = dict()
+        return redirect(url_for("main_page"))
 
-@app.route("/main/")
+@app.route("/main/", methods=["GET, POST"])
 def main():
     return render_template("main_page.html")
 
-@app.route("/game/")
+@app.route("/game/", methods=["GET, POST"])
 def game():
     return render_template("game_page.html")
 
-@app.route("/edit/")
+@app.route("/edit/", methods=["GET, POST"])
 def edit():
     return render_template("edit_account.html")
 
-@app.route("/create/")
+@app.route("/create/", methods=["GET, POST"])
 def create():
     return render_template("create_account.html")
