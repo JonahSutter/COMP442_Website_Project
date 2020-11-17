@@ -15,8 +15,6 @@ def index():
 def login():
     if request.form.get("login-button"):
         return redirect(url_for("main"))
-    if request.form.get("signup-button"):
-        return redirect(url_for("create"))
     flash("Invalid")
     return redirect(url_for("login"))
 
@@ -24,26 +22,34 @@ def login():
 def get_login():
     return render_template("login.html")
 
-@app.route("/main/", methods=["GET, POST"])
+@app.route("/main/", methods=["POST"])
 def main():
-    if request.method == "GET":
-        return render_template("main_page.html")
-    else:
-        return render_template("main_page.html")
+    return render_template("main_page.html")
 
-@app.route("/game/", methods=["GET, POST"])
+@app.route("/main/", methods=["GET"])
+def get_main():
+    return render_template("main_page.html")
+
+@app.route("/game/", methods=["POST"])
 def game():
-    if request.method == "GET":
-        return render_template("game_page.html")
+    return render_template("game_page.html")
 
-@app.route("/edit/", methods=["GET, POST"])
+@app.route("/game/", methods=["GET"])
+def get_game():
+    return render_template("game_page.html")
+
+@app.route("/edit/", methods=["POST"])
 def edit():
-    if request.method == "GET":
-        return render_template("edit_account.html")
+    return render_template("edit_account.html")
 
-@app.route("/create/", methods=["GET, POST"])
+@app.route("/edit/", methods=["GET"])
+def get_edit():
+    return render_template("edit_account.html")
+
+@app.route("/create/", methods=["POST"])
 def create():
-    if request.method == "GET":
-        return render_template("create_account.html")
-    else:
-        return render_template("create_account.html")
+    return render_template("create_account.html")
+
+@app.route("/create/", methods=["GET"])
+def get_create():
+    return render_template("create_account.html")
