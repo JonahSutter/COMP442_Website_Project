@@ -8,13 +8,19 @@ app.config["SECRET_KEY"] = os.urandom(32)
 
 @app.route("/login/", methods=["GET", "POST"])
 def login():
+    signin = False
+    signup = False
     if request.method == "GET":
-        return redirect(url_for("login"))
+        return render_template("login.html", signin=signin, signup=signup)
     if request.method == "POST":
         data = dict()
-        return redirect(url_for("main_page"))
+        if signin == True:
+            return redirect(url_for("main"))
+        if signup == True:
+            return redirect(url_for("create"))
+        return redirect(url_for("login"))
     else:
-        return render_template("login.html")
+        return render_template("login.html", signin=signin, signup=signup)
 
 @app.route("/main/", methods=["GET, POST"])
 def main():
