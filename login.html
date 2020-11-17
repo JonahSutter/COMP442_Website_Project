@@ -7,12 +7,21 @@ Login
 
 {% block content %}
 
+{% block script %}
+function loginButton() {
+    return {{signin}} = True;
+}
+function signupButton() {
+    return {{signup}} = True;
+}
+{% endblock %}
+
 <div class="container" action="/login/" method="post">
     <form id="login-form-id">
         <input id="login-name" type="text" class="form-control" name="login-name" placeholder="Username" required>
         <input id="login-password" type="password" class="form-control" name="login-password" placeholder="password" required minlength="8">
-        <button class="form-control btn btn-primary" id="login-button" onclick="{{signin = True}}"> Log in </button>
-    <button class="form-control btn btn-primary" id="signup-button" onclick="{{signup = True}}"> Sign up</button>
+    <button class="form-control btn btn-primary" id="login-button" onclick="return loginButton()"> Log in </button>
+    <button class="form-control btn btn-primary" id="signup-button" onclick="return signupButton()"> Sign up</button>
     </form>
 </div>
 {% endblock %}
