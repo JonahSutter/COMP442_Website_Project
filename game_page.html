@@ -4,3 +4,18 @@
 {% block title %}
 Chess
 {% endblock %}
+
+{% block scripts %}
+function goBack() {
+    window.history.back();
+}
+{% endblock %}
+
+{% block content %}
+<div class="back-button">
+    <button id="game-back-button" onclick="goBack()"> Back </button>
+</div>
+<div class="game-save">
+    <button id="game-save-button" onclick="return false"> Save Game </button>
+</div>
+{% endblock %}
