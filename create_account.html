@@ -4,3 +4,19 @@
 {% block title %}
 Create Account
 {% endblock %}
+
+{% block scripts %}
+function goBack() {
+    window.history.back();
+}
+{% endblock %}
+
+{% block content %}
+<button id="back-button" onclick="goBack()"> Back </button>
+<form id="form-id">
+    <input id="user-name" type="text" class="form-control" name="user-name" required>
+    <input id="user-password" type="password" class="form-control" name="user-password" required>
+    <input id="user-confirm-password" type="password" class="form-control" name="user-confirm-password" required>
+    <button class="form-control btn btn-primary" id="submit-button" onclick="return true"> Create Account </button>
+</form>
+{% endblock %}
