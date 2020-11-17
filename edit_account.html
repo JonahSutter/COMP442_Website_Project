@@ -4,3 +4,18 @@
 {% block title %}
 Edit Account
 {% endblock %}
+
+{% block content %}
+<div class="back-button">
+    <button id="create-back-button" onclick="goBack()"> Back </button>
+</div>
+<div class="container">
+    <form id="save-form-id">
+        <input id="edit-name" type="text" class="form-control" name="edit-name" placeholder="(Username)" required>
+        <input id="edit-password" type="password" class="form-control" name="edit-password" placeholder="(password)" required minlength="8">
+        <input id="edit-confirm-password" type="password" class="form-control" name="edit-confirm-password" placeholder="(confirm password)" required minlength="8">
+        <button class="form-control btn btn-primary" id="save-button" onclick="return true"> Save Changes </button>
+        <!-- Add <submit> and <option> tags for profile image picker -->
+    </form>
+</div>
+{% endblock %}
