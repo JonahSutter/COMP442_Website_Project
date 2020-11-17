@@ -9,10 +9,10 @@ Login
 
 {% block script %}
 function loginButton() {
-    return {{signin}} = True;
+    return !{{signin}};
 }
 function signupButton() {
-    return {{signup}} = True;
+    return !{{signup}};
 }
 {% endblock %}
 
