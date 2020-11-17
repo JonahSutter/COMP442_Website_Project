@@ -28,6 +28,8 @@ def get_login():
 def main():
     if request.method == "GET":
         return render_template("main_page.html")
+    else:
+        return render_template("main_page.html")
 
 @app.route("/game/", methods=["GET, POST"])
 def game():
@@ -42,4 +44,6 @@ def edit():
 @app.route("/create/", methods=["GET, POST"])
 def create():
     if request.method == "GET":
+        return render_template("create_account.html")
+    else:
         return render_template("create_account.html")
