@@ -6,13 +6,15 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config["SECRET_KEY"] = os.urandom(32)
 
-@app.route("/login/", methods=["GET, POST"])
+@app.route("/login/", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return redirect(url_for("login"))
     if request.method == "POST":
         data = dict()
         return redirect(url_for("main_page"))
+    else:
+        return render_template("login.html")
 
 @app.route("/main/", methods=["GET, POST"])
 def main():
