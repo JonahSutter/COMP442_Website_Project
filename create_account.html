@@ -12,11 +12,15 @@ function goBack() {
 {% endblock %}
 
 {% block content %}
-<button id="back-button" onclick="goBack()"> Back </button>
-<form id="form-id">
-    <input id="user-name" type="text" class="form-control" name="user-name" required>
-    <input id="user-password" type="password" class="form-control" name="user-password" required>
-    <input id="user-confirm-password" type="password" class="form-control" name="user-confirm-password" required>
-    <button class="form-control btn btn-primary" id="submit-button" onclick="return true"> Create Account </button>
-</form>
+<div class="back-button">
+    <button id="create-back-button" onclick="goBack()"> Back </button>
+</div>
+<div class="container">
+    <form id="form-id">
+        <input id="create-name" type="text" class="form-control" name="create-name" placeholder="Username" required>
+        <input id="create-password" type="password" class="form-control" name="create-password" placeholder="password" required>
+        <input id="create-confirm-password" type="password" class="form-control" name="create-confirm-password" placeholder="confirm password" required>
+        <button class="form-control btn btn-primary" id="submit-button" onclick="return true"> Create Account </button>
+    </form>
+</div>
 {% endblock %}
