@@ -16,16 +16,20 @@ def login():
 
 @app.route("/main/", methods=["GET, POST"])
 def main():
-    return render_template("main_page.html")
+    if request.method == "GET":
+        return render_template("main_page.html")
 
 @app.route("/game/", methods=["GET, POST"])
 def game():
-    return render_template("game_page.html")
+    if request.method == "GET":
+        return render_template("game_page.html")
 
 @app.route("/edit/", methods=["GET, POST"])
 def edit():
-    return render_template("edit_account.html")
+    if request.method == "GET":
+        return render_template("edit_account.html")
 
 @app.route("/create/", methods=["GET, POST"])
 def create():
-    return render_template("create_account.html")
+    if request.method == "GET":
+        return render_template("create_account.html")
