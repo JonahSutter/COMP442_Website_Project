@@ -18,8 +18,8 @@ function goBack() {
 <div class="container">
     <form id="form-id">
         <input id="create-name" type="text" class="form-control" name="create-name" placeholder="Username" required>
-        <input id="create-password" type="password" class="form-control" name="create-password" placeholder="password" required>
-        <input id="create-confirm-password" type="password" class="form-control" name="create-confirm-password" placeholder="confirm password" required>
+        <input id="create-password" type="password" class="form-control" name="create-password" placeholder="password" required minlength="8">
+        <input id="create-confirm-password" type="password" class="form-control" name="create-confirm-password" placeholder="confirm password" required minlength="8">
         <button class="form-control btn btn-primary" id="submit-button" onclick="return true"> Create Account </button>
     </form>
 </div>
