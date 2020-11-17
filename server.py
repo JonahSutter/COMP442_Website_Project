@@ -6,21 +6,23 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config["SECRET_KEY"] = os.urandom(32)
 
-@app.route("/login/", methods=["GET", "POST"])
+
+@app.route("/", methods=["GET"])
+def index():
+    return redirect(url_for("get_login"))
+
+@app.route("/login/", methods=["POST"])
 def login():
-    signin = False
-    signup = False
-    if request.method == "GET":
-        return render_template("login.html", signin=signin, signup=signup)
-    if request.method == "POST":
-        data = dict()
-        if signin == True:
-            return redirect(url_for("main"))
-        if signup == True:
-            return redirect(url_for("create"))
-        return redirect(url_for("login"))
-    else:
-        return render_template("login.html", signin=signin, signup=signup)
+    if request.form.get("login-button"):
+        return redirect(url_for("main"))
+    if request.form.get("signup-button"):
+        return redirect(url_for("create"))
+    flash("Invalid")
+    return redirect(url_for("login"))
+
+@app.route("/login/", methods=["GET"])
+def get_login():
+    return render_template("login.html")
 
 @app.route("/main/", methods=["GET, POST"])
 def main():
