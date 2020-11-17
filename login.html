@@ -7,7 +7,7 @@ Login
 
 {% block content %}
 
-<div class="container" action="{{ url_for('login') }}" method="post">
+<div class="container" action="/login/" method="post">
     <form id="login-form-id">
         <input id="login-name" type="text" class="form-control" name="login-name" placeholder="Username" required>
         <input id="login-password" type="password" class="form-control" name="login-password" placeholder="password" required minlength="8">
