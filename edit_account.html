@@ -5,6 +5,12 @@
 Edit Account
 {% endblock %}
 
+{% block scripts %}
+function goBack() {
+    window.history.back();
+}
+{% endblock %}
+
 {% block content %}
 <div class="back-button">
     <button id="create-back-button" onclick="goBack()"> Back </button>
