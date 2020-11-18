@@ -1,3 +1,6 @@
-# Comp442-Website-Project
+Comp 442 Website Final Project
 
-# First Commit
+Tyler Keyes
+Nathan McNany
+Jonah Sutter
+Jonathan Beels
