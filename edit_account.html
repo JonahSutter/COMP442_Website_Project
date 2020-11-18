@@ -16,7 +16,7 @@ function goBack() {
     <button id="edit-back-button" onclick="goBack()"> Back </button>
 </div>
 <div class="container">
-    <form id="save-form-id">
+    <form id="save-form-id" action="/edit/" method="post">
         <input id="edit-name" type="text" class="form-control" name="edit-name" placeholder="(Username)" required>
         <input id="edit-password" type="password" class="form-control" name="edit-password" placeholder="(password)" required minlength="8">
         <input id="edit-confirm-password" type="password" class="form-control" name="edit-confirm-password" placeholder="(confirm password)" required minlength="8">
