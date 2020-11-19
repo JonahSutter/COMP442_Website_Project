@@ -1,0 +1,31 @@
+<!-- Main Page 
+    extends template.j2 -->
+
+{% extends "template.j2" %}
+
+{% block title %}
+World Of Chess
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="newgame">
+                <button class="form-control btn btn-primary" id="new-game" name="new-game-button" value="new-game-button"> New Game </button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="loadgame">
+                <button class="form-control btn btn-primary" id="load-game" name="load-game-button" value="load-game-button"> Load Game </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<!-- User login file -->
+{% extends "template.j2" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <form id="login-form-id" action="/login/" method="post">
+        <div class="username mt-3 pt-3">
+            <input id="login-name" type="text" class="form-control" name="login-name" placeholder="Username" required>
+        </div>
+        <div class="password mt-2 pt-2">
+            <input id="login-password" type="password" class="form-control" name="login-password" placeholder="password" required minlength="8">
+        </div>
+        <div class="login mt-2 pt-2 w-50 mx-auto">
+            <button class="form-control btn btn-primary" id="login-button" name="login-button" value="login-button"> Log in </button>
+        </div>
+    </form>
+    
+    <div class="sign_up mt-2 pt-2 w-50 mx-auto">
+        <a href="{{ url_for('create') }}">
+            <button class="form-control btn btn-primary" id="signup-button" name="signup-button"> Sign up</button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}
