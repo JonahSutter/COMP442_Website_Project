@@ -15,13 +15,96 @@ function goBack() {
 <div class="back-button">
     <button id="edit-back-button" onclick="goBack()"> Back </button>
 </div>
-<div class="container">
-    <form id="save-form-id" action="/edit/" method="post">
-        <input id="edit-name" type="text" class="form-control" name="edit-name" placeholder="(Username)" required>
-        <input id="edit-password" type="password" class="form-control" name="edit-password" placeholder="(password)" required minlength="8">
-        <input id="edit-confirm-password" type="password" class="form-control" name="edit-confirm-password" placeholder="(confirm password)" required minlength="8">
-        <button class="form-control btn btn-primary" id="save-button" onclick="return true"> Save Changes </button>
-        <!-- Add <submit> and <option> tags for profile image picker -->
+
+<div class="container profile-info">
+    <div class="row justify-content-center">
+        <div class="profilepic d-flex mt-5 pt-5">
+            <img src="/static/profile.png" alt="Profile Picture" width="200" height="200">
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <h2> Player Name </h2>
+    </div>
+    <div class="row justify-content-center">
+        <h4> Rank/Score </h4>
+    </div>
+</div>
+
+<div class="container text-fields">
+    <form id="create-form-id" action="/create/" method="post">
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-4">
+                <input id="create-name" type="text" class="form-control" name="create-name" placeholder="Username" required>
+            </div>
+        </div>
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-2">
+                <button class="form-control btn btn-primary" id="save-button" onclick="return true"> Save </button>
+                <!-- Add <submit> and <option> tags for profile image picker -->
+            </div>
+        </div>
     </form>
+</div>
+
+<div class="container changepw">
+    <div class="row mt-3 d-flex justify-content-center">
+        <div class="col-md-2">
+            <button class="form-control btn btn-primary" id="change-password-button" onclick="return true"> Change Password </button>
+        </div>
+    </div>
+</div>
+
+<div class="container profile-picture-picker">
+
+    <div class="row mt-5">
+        <div class="col-md-4 mx-auto bg-secondary text-center">
+            <h5> Select Profile Picture </h5>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-1 bg-secondary pt-2 pb-3">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary py-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary py-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary py-2">
+            <img src="/static/profile.png" alt="Profile Picture Option" width="50" height="50">
+        </div>
+    </div>
 </div>
 {% endblock %}
