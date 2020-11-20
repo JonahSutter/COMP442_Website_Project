@@ -1,16 +1,25 @@
 .white-space {
 	background-color: #FFCE9E;
-	height: 3em;
-	width: 3em;
+	height: 4em;
+	width: 4em;
 }
 
 .black-space {
 	background-color: #D18B47;
-	height: 3em;
-	width: 3em;
+	height: 4em;
+	width: 4em;
 }
 
 .piece {
-	height: 3em;
-	width: 3em;
+	height: 4em;
+	width: 4em;
+}
+
+.row {
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
+
+.game-board {
+	margin: auto;
 }
