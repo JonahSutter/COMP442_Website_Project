@@ -1,3 +1,8 @@
+.game-board {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .white-space {
 	background-color: #FFCE9E;
 	height: 4em;
@@ -18,8 +23,4 @@
 .row {
 	padding-bottom: 1em;
 	padding-top: 1em;
-}
-
-.game-board {
-	margin: auto;
 }
