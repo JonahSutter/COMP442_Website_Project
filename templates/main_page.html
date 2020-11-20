@@ -8,25 +8,113 @@ World Of Chess
 {% endblock %}
 
 {% block content %}
-<div class="container">
-
+<div class="container profile-info">
+    <div class="row justify-content-center">
+        <div class="profilepic d-flex mt-5 pt-5">
+            <img src="/static/profile.png" alt="Profile Picture" width="200" height="200">
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <h2> Player Name </h2>
+    </div>
+    <div class="row justify-content-center">
+        <h4> Rank/Score </h4>
+    </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
+<div class="container buttons">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-2">
             <div class="newgame">
                 <a href="{{ url_for('game') }}">
                 <button class="form-control btn btn-primary" id="new-game" name="new-game-button" value="new-game-button"> New Game </button>
                 </a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
             <div class="loadgame">
                 <a href="{{ url_for('game') }}">
                 <button class="form-control btn btn-primary" id="load-game" name="load-game-button" value="load-game-button"> Load Game </button>
                 </a>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="container leaderboard">
+
+    <div class="row bg-light mt-5 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> Player Name </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> 123123123 </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+
+    <div class="row bg-light mt-1 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> Player Name </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> 123123123 </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+
+    <div class="row bg-light mt-1 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> Player Name </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> 123123123 </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+
+    <div class="row bg-light mt-1 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> Player Name </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> 123123123 </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+
+    <div class="row bg-light mt-1 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> Player Name </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> 123123123 </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
         </div>
     </div>
 </div>
