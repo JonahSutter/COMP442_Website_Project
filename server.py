@@ -40,7 +40,7 @@ def check_password(pwd, b64ph, pep):
 # DATABASE
 # get relative path to database file
 scriptdir = os.path.dirname(__file__)
-DATABASE = os.path.join(scriptdir, "database/chess_data.sqlite3")
+DATABASE = os.path.join(scriptdir, "chess_data.sqlite3")
 
 # returns a connection to the database
 # if the database is not created, creates the table
@@ -51,10 +51,12 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
         c = db.cursor()
         c.execute('''
-            create Table Users(
-            id int AUTO_INCREMENT primary key,
-            email text,
-            hash text
+            CREATE TABLE IF NOT EXISTS Users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT(100) NOT NULL,
+            password TEXT(255) NOT NULL,
+            profileimg TEXT(255),
+            chessboard TEXT(1000)
             );
         ''')
         db.commit()
@@ -98,7 +100,19 @@ def login():
             valid = False
             flash("password must be at least 8 characters")
         if valid:
-            return redirect(url_for("main"))
+            conn = get_db()
+            c = conn.cursor()
+            uid = c.execute('SELECT id FROM Users WHERE username=?;',(data["login-name"],)).fetchone()
+            if uid is not None:
+                flash("Username is not valid")
+                return redirect(url_for("login"))
+            pwd = c.execute('SELECT password FROM Users WHERE username=?',(data["login-name"],)).fetchone()
+            upwd = data["login-passward"]
+            if check_password(upwd, pwd, pep):
+                return redirect(url_for("main"))
+            else:
+                flash("password is not valid")
+                return redirect(url_for("login"))
         else:
             return redirect(url_for("login"))
     flash("Invalid Login")
@@ -168,6 +182,15 @@ def create():
         valid = False
         flash("password and confirm password must match")
     if valid:
+        conn = get_db()
+        c = conn.cursor()
+        uid = c.execute('SELECT id FROM Users WHERE username=?;',(data["create-name"],)).fetchone()
+        if uid is not None:
+            flash("An account with this username already exists")
+            return redirect(url_for("get_create"))
+        hpwd = hash_password(data["create-password"], pep)
+        c.execute('INSERT INTO Users (username, password) VALUES (?,?);',(data["create-name"], hpwd))
+        conn.commit()
         # route to login and make user sign in
         return redirect(url_for("login"))
     else:
