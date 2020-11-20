@@ -38,7 +38,9 @@ def check_password(pwd, b64ph, pep):
     return argon2.verify(pwd, h)
 
 # DATABASE
-DATABASE = "database/chess_data.sqlite3"
+# get relative path to database file
+scriptdir = os.path.dirname(__file__)
+DATABASE = os.path.join(scriptdir, "database/chess_data.sqlite3")
 
 # returns a connection to the database
 # if the database is not created, creates the table

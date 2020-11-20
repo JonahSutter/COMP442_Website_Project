@@ -16,12 +16,16 @@ World Of Chess
     <div class="row">
         <div class="col-md-6">
             <div class="newgame">
+                <a href="{{ url_for('game') }}">
                 <button class="form-control btn btn-primary" id="new-game" name="new-game-button" value="new-game-button"> New Game </button>
+                </a>
             </div>
         </div>
         <div class="col-md-6">
             <div class="loadgame">
+                <a href="{{ url_for('game') }}">
                 <button class="form-control btn btn-primary" id="load-game" name="load-game-button" value="load-game-button"> Load Game </button>
+                </a>
             </div>
         </div>
     </div>
