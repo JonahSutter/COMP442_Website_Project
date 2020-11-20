@@ -11,11 +11,99 @@ function goBack() {
 }
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/game_style.css">
+{% endblock %}
+
 {% block content %}
 <div class="back-button">
     <button id="game-back-button" onclick="goBack()"> Back </button>
 </div>
 <div class="game-save">
     <button id="game-save-button" onclick="return false"> Save Game </button>
+</div>
+<div class="game-board">
+	<table>
+		<tr>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_rook.png" alt="black rook"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_knight.png" alt="black knight"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_bishop.png" alt="black bishop"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_queen.png" alt="black queen"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_king.png" alt="black king"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_bishop.png" alt="black bishop"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_knight.png" alt="black knight"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_rook.png" alt="black rook"> </td>
+		</tr>
+		<tr>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_pawn.png" alt="black pawn"> </td>
+		</tr>
+		<tr>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+		</tr>
+		<tr>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+		</tr>
+		<tr>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+		</tr>
+		<tr>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+			<td class="black-space">  </td>
+			<td class="white-space">  </td>
+		</tr>
+		<tr>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_pawn.png" alt="white pawn"> </td>
+		</tr>
+		<tr>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_rook.png" alt="white rook"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_knight.png" alt="white knight"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_bishop.png" alt="white bishop"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_queen.png" alt="white queen"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_king.png" alt="white king"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_bishop.png" alt="white bishop"> </td>
+			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_knight.png" alt="white knight"> </td>
+			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_rook.png" alt="white rook"> </td>
+		</tr>
+	</table>
 </div>
 {% endblock %}
