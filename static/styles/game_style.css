@@ -1,0 +1,26 @@
+.game-board {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.white-space {
+	background-color: #FFCE9E;
+	height: 4em;
+	width: 4em;
+}
+
+.black-space {
+	background-color: #D18B47;
+	height: 4em;
+	width: 4em;
+}
+
+.piece {
+	height: 4em;
+	width: 4em;
+}
+
+.row {
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
