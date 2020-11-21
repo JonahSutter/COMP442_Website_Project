@@ -9,7 +9,8 @@ from passlib.hash import argon2
 # database imports
 import sqlite3
 from flask import g
-import sys
+import datetime
+from datetime import timedelta, datetime
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -62,7 +63,9 @@ def get_db():
             username TEXT(100) NOT NULL,
             password BLOB NOT NULL,
             profileimg TEXT(255),
-            chessboard TEXT(1000)
+            chessboard TEXT(1000),
+            score INTEGER NOT NULL,
+            isadmin INTEGER NOT NULL
             );
         ''')
         db.commit()
@@ -107,11 +110,16 @@ def login():
     if valid:
         conn = get_db()
         c = conn.cursor()
-        uid = c.execute('SELECT id, password FROM Users WHERE username=?;',(user_name,)).fetchone()
-        if uid is not None and check_password(pwd, uid[1], pep):
+        user = c.execute('SELECT id, username, password, score FROM Users WHERE username=?;',(user_name,)).fetchone()
+        if user is not None and check_password(pwd, user[2], pep):
+            expires = datetime.utcnow()+timedelta(hours=24)
+            session["uid"] = user[0]
+            session["expires"] = expires.strftime("Y-%m-%dT%H:%M:%SZ")
+            session["username"] = user[1]
+            session["score"] = user[3]
             return redirect(url_for("main"))
         else:
-            flash("password is not valid")
+            flash("Invalid username or password")
             return redirect(url_for("login"))
     return "Invalid email or password", 401
 
@@ -132,7 +140,13 @@ def main():
 # add: only display if user info is in login session, else route to login
 @app.route("/main/", methods=["GET"])
 def get_main():
-    return render_template("main_page.html")
+    c = get_db().cursor()
+    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
+    if user is not None:
+        username = session["username"]
+        score = session["score"]
+        return render_template("main_page.html", username=username, score=score)
+    return redirect(url_for("login"))
 
 # post handler for game
 # add: waiting for requirements
@@ -145,7 +159,11 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
-    return render_template("game_page.html")
+    c = get_db().cursor()
+    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
+    if user is not None:
+        return render_template("game_page.html")
+    return redirect(url_for("login"))
 
 # post handler for edit
 # add: validation for changes 
@@ -157,7 +175,12 @@ def edit():
 # add: only display if user info in login session, else route to login
 @app.route("/edit/", methods=["GET"])
 def get_edit():
-    return render_template("edit_account.html")
+    c = get_db().cursor()
+    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
+    if user is not None:
+        username = session["username"]
+        return render_template("edit_account.html", username=username)
+    return redirect(url_for("login"))
 
 # post handler for create
 # validates username and password, if valid redirects to login
@@ -189,7 +212,10 @@ def create():
             flash("An account with this username already exists")
             return redirect(url_for("get_create"))
         hpwd = hash_password(password, pep)
-        c.execute('INSERT INTO Users (username, password) VALUES (?,?);',(user_name, hpwd))
+        # NOTE: to create admin account change value for admin to be a 1
+        isadmin = 1
+        score = 0
+        c.execute('INSERT INTO Users (username, password, score, isadmin) VALUES (?,?,?,?);',(user_name, hpwd, score, isadmin))
         conn.commit()
         # route to login and make user sign in
         return redirect(url_for("login"))
