@@ -1,0 +1,23 @@
+#menu-bar {
+	margin-left: .01em;
+	padding-bottom: 1em;
+	padding-top: 1em;
+	background-color: #52575d;
+	color: #52475d;
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+#create-back-button {
+	border: none;
+	background-color: #52475d;
+	color: lightgrey;
+}
+
+#creat-back-button:hover {
+	color: white;
+}
+
+.profile-picture-picker {
+	margin-bottom: 10%;
+}

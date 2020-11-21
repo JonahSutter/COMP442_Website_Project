@@ -11,9 +11,17 @@ function goBack() {
 }
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/account_style.css">
+{% endblock %}
+
 {% block content %}
-<div class="back-button">
-    <button id="edit-back-button" onclick="goBack()"> Back </button>
+<div class="row">
+	<div class="col-md-6">
+		<div class="back-button">
+			<button id="edit-back-button" onclick="goBack()"> Back </button>
+		</div>
+	</div>
 </div>
 <div class="container">
     <form id="save-form-id" action="/edit/" method="post">

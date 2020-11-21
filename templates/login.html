@@ -5,9 +5,12 @@
 Login
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/login_style.css">
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
+<div class="container mt-5 pt-5" id="login-menu">
     <form id="login-form-id" action="/login/" method="post">
         <div class="username mt-3 pt-3">
             <input id="login-name" type="text" class="form-control" name="login-name" placeholder="Username" required>

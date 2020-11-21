@@ -11,9 +11,17 @@ function goBack() {
 }
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/create_style.css">
+{% endblock %}
+
 {% block content %}
-<div class="back-button">
-    <button id="create-back-button" onclick="goBack()"> Back </button>
+<div class="row" id="menu-bar">
+	<div class="col-md-6">
+		<div class="back-button">
+			<button id="create-back-button" onclick="goBack()"> Back </button>
+		</div>
+	</div>
 </div>
 <div class="container text-fields">
     <form id="create-form-id" action="/create/" method="post">

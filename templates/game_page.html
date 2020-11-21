@@ -16,17 +16,16 @@ function goBack() {
 {% endblock %}
 
 {% block content %}
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="back-button">
-				<button class="form-control btn btn-primary" id="game-back-button" onclick="goBack()"> Back </button>
-			</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="back-button">
+			<button id="game-back-button" onclick="goBack()"> Back </button>
 		</div>
-		<div class="col-md-6">
-			<div class="game-save">
-				<button class="form-control btn btn-primary" id="game-save-button" onclick="return false"> Save Game </button>
-			</div>
+	</div>
+	<div class="col-md-6">
+		<div class="game-save">
+			<button id="game-save-button" onclick="return false"> Save Game </button>
 		</div>
 	</div>
 </div>

@@ -1,6 +1,8 @@
+
 .game-board {
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 15%;
 }
 
 .white-space {
@@ -21,6 +23,32 @@
 }
 
 .row {
+	margin-left: .01em;
 	padding-bottom: 1em;
 	padding-top: 1em;
+	background-color: #52575d;
+	color: #52475d;
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+#game-back-button {
+	border: none;
+	background-color: #52575d;
+	color: lightgrey;
+}
+
+#game-back-button:hover {
+	color: white;
+}
+
+#game-save-button {
+	float: right;
+	border: none;
+	background-color: #52575d;
+	color: lightgrey;
+}
+
+#game-save-button:hover {
+	color: white;
 }
