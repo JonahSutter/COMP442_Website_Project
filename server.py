@@ -9,18 +9,24 @@ from passlib.hash import argon2
 # database imports
 import sqlite3
 from flask import g
+import sys
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 # generate a random secret key
-app.config["SECRET_KEY"] = os.urandom(32)
+app.config["SECRET_KEY"] = "hotdogmuffinmordorelrondbugsniper"
+
+# Path to website directory
+serverdir = os.path.dirname(__file__)
 
 # PASSWORD AND SECURITY
 
+# get relative path to pepper file
+pepfile = os.path.join(serverdir, "pepper.bin")
 # generate key and pepper
-# add: store in secure location
-key = Fernet.generate_key()
-pep = Fernet(key)
+with open(pepfile, 'rb') as fin:
+    key = fin.read()
+    pep = Fernet(key)
 
 # hash the given password using the pepper
 # returns the hashed password
@@ -38,9 +44,9 @@ def check_password(pwd, b64ph, pep):
     return argon2.verify(pwd, h)
 
 # DATABASE
+
 # get relative path to database file
-scriptdir = os.path.dirname(__file__)
-DATABASE = os.path.join(scriptdir, "chess_data.sqlite3")
+DATABASE = os.path.join(serverdir, "chess_data.sqlite3")
 
 # returns a connection to the database
 # if the database is not created, creates the table
@@ -52,9 +58,9 @@ def get_db():
         c = db.cursor()
         c.execute('''
             CREATE TABLE IF NOT EXISTS Users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY,
             username TEXT(100) NOT NULL,
-            password TEXT(255) NOT NULL,
+            password BLOB NOT NULL,
             profileimg TEXT(255),
             chessboard TEXT(1000)
             );
@@ -80,43 +86,35 @@ def index():
     return redirect(url_for("get_login"))
 
 # post handler for login
-# first checks if login button pressed, then validates email and password
+# validates username and password
 # if valid routes to main_page.html, else refreshes page
-# add: hash password and see if its in the database, add user info to login session
-# add: add a way to login as an administrator
+# TODO: hash password and see if its in the database
+# TODO: add a way to login as an administrator
+# TODO: add user to login session (user authentication slides)
 @app.route("/login/", methods=["POST"])
 def login():
-    if request.form.get("login-button"):
-        data = dict()
-        fields = ["login-name", "login-password"]
-        for field in fields:
-            data[field] = request.form.get(field)
-        valid = True
-        for field in fields:
-            if data[field] is None or data[field] == "":
-                valid = False
-                flash(f"{field} cannot be blank")
-        if valid and len(data["login-password"]) < 8:
+    data = dict()
+    fields = ["login-name", "login-password"]
+    for field in fields:
+        data[field] = request.form.get(field)
+    user_name = data["login-name"]
+    pwd = data["login-password"]
+    valid = True
+    for field in fields:
+        if data[field] is None or data[field] == "":
             valid = False
-            flash("password must be at least 8 characters")
-        if valid:
-            conn = get_db()
-            c = conn.cursor()
-            uid = c.execute('SELECT id FROM Users WHERE username=?;',(data["login-name"],)).fetchone()
-            if uid is not None:
-                flash("Username is not valid")
-                return redirect(url_for("login"))
-            pwd = c.execute('SELECT password FROM Users WHERE username=?',(data["login-name"],)).fetchone()
-            upwd = data["login-passward"]
-            if check_password(upwd, pwd, pep):
-                return redirect(url_for("main"))
-            else:
-                flash("password is not valid")
-                return redirect(url_for("login"))
+            flash(f"{field} cannot be blank")
+    if valid:
+        conn = get_db()
+        c = conn.cursor()
+        uid = c.execute('SELECT id, password FROM Users WHERE username=?;',(user_name,)).fetchone()
+        if uid is not None and check_password(pwd, uid[1], pep):
+            return redirect(url_for("main"))
         else:
+            flash("password is not valid")
             return redirect(url_for("login"))
-    flash("Invalid Login")
-    return redirect(url_for("login"))
+    return "Invalid email or password", 401
+
 
 # post handler for login, displays login.html
 @app.route("/login/", methods=["GET"])
@@ -170,26 +168,28 @@ def create():
     fields = ["create-name", "create-password", "create-confirm-password"]
     for field in fields:
         data[field] = request.form.get(field)
+    user_name = data["create-name"]
+    password = data["create-password"]
     valid = True
     for field in fields:
         if data[field] is None or data[field] == "":
             valid = False
             flash(f"{field} cannot be blank")
-    if valid and len(data["create-password"]) < 8:
+    if valid and len(password) < 8:
         valid = False
         flash("password must be at least 8 characters")
-    if valid and data["create-password"] != data["create-confirm-password"]:
+    if valid and password != data["create-confirm-password"]:
         valid = False
         flash("password and confirm password must match")
     if valid:
         conn = get_db()
         c = conn.cursor()
-        uid = c.execute('SELECT id FROM Users WHERE username=?;',(data["create-name"],)).fetchone()
+        uid = c.execute('SELECT id FROM Users WHERE username=?;',(user_name,)).fetchone()
         if uid is not None:
             flash("An account with this username already exists")
             return redirect(url_for("get_create"))
-        hpwd = hash_password(data["create-password"], pep)
-        c.execute('INSERT INTO Users (username, password) VALUES (?,?);',(data["create-name"], hpwd))
+        hpwd = hash_password(password, pep)
+        c.execute('INSERT INTO Users (username, password) VALUES (?,?);',(user_name, hpwd))
         conn.commit()
         # route to login and make user sign in
         return redirect(url_for("login"))
