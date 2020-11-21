@@ -6,9 +6,13 @@ Chess
 {% endblock %}
 
 {% block scripts %}
+<script>
 function goBack() {
     window.history.back();
 }
+</script>
+<script src="/static/scripts/gamescript.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/styles/gamestyle.css" />
 {% endblock %}
 
 {% block stylesheet %}
@@ -30,6 +34,7 @@ function goBack() {
 	</div>
 </div>
 <div>
+	<!--
 	<table class="game-board">
 		<tr>
 			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/black_rook.png" alt="black rook"> </td>
@@ -111,6 +116,91 @@ function goBack() {
 			<td class="black-space"> <img class="piece" src="/static/images/chess_pieces/white_knight.png" alt="white knight"> </td>
 			<td class="white-space"> <img class="piece" src="/static/images/chess_pieces/white_rook.png" alt="white rook"> </td>
 			</tr>
+	</table>
+-->
+	<table id="chessboard">
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 {% endblock %}
