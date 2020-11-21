@@ -13,7 +13,7 @@ var BOARD = [
 var SELECTEDPIECE = 0;
 var SELECTEDX = -1;
 var SELECTEDY = -1;
-var TURN = 1;  // 1 = White, 0 = Black
+var TURN = 1;  // odd = White, even = Black
 
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -53,7 +53,7 @@ function registerClick(x, y) {
     // Get the piece at that spot
     let pieceType = BOARD[y][x];
     if (SELECTEDPIECE == 0) {  // If we haven't selected a piece
-        if ((pieceType != 0) && (pieceType % 2 == TURN)) {  // Check to see if the current player owns that piece (and isn't a blank space)
+        if ((pieceType != 0) && ((pieceType % 2) == (TURN % 2))) {  // Check to see if the current player owns that piece (and isn't a blank space)
             SELECTEDPIECE = pieceType.valueOf();  // Store for later use
             SELECTEDX = x.valueOf();
             SELECTEDY = y.valueOf();
@@ -67,12 +67,8 @@ function registerClick(x, y) {
             // Make that move if possible
             BOARD[SELECTEDY][SELECTEDX] = 0;
             BOARD[y][x] = SELECTEDPIECE;
-            // Switch turns
-            if (TURN == 0) {
-                TURN = 1;
-            } else {
-                TURN = 0;
-            }
+            // Increment the turn counter
+            TURN += 1;
             console.log("Move complete.  Turn = " + TURN);
         }
         SELECTEDPIECE = 0;  // No piece selected
