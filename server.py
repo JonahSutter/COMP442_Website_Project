@@ -140,6 +140,9 @@ def main():
 # add: only display if user info is in login session, else route to login
 @app.route("/main/", methods=["GET"])
 def get_main():
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('login'))
     c = get_db().cursor()
     user = c.execute('SELECT id from Users where id=?',(session["uid"],))
     if user is not None:
@@ -159,6 +162,9 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('login'))
     c = get_db().cursor()
     user = c.execute('SELECT id from Users where id=?',(session["uid"],))
     if user is not None:
@@ -175,6 +181,9 @@ def edit():
 # add: only display if user info in login session, else route to login
 @app.route("/edit/", methods=["GET"])
 def get_edit():
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('login'))
     c = get_db().cursor()
     user = c.execute('SELECT id from Users where id=?',(session["uid"],))
     if user is not None:
