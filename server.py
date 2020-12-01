@@ -16,6 +16,7 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 # generate a random secret key
 app.config["SECRET_KEY"] = "hotdogmuffinmordorelrondbugsniper"
+app.secret_key = "hotdogmuffinmordorelrondbugsniper"
 
 # Path to website directory
 serverdir = os.path.dirname(__file__)
@@ -80,18 +81,35 @@ def close_connection(exception):
 
 # ACTIVE LOGIN
 
+def check_login():
+    uid = session.get("uid")
+    try:
+        exp = datetime.strptime(session.get("expires"), "Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        exp = None
+    conn = get_db()
+    c = conn.cursor()
+    user = c.execute('select * from Users where id=?;',(uid,))
+    conn.commit()
+    conn.close()
+    if user is None or exp is None or exp < datetime.utcnow():
+        print('Valid user')
+        print(user)
+        print(exp)
+        return redirect(url_for("get_login"))
+
 # ROUTES
 
 # default route of server, routes client to login page
 # add: create database if not created
 @app.route("/", methods=["GET"])
 def index():
+    session.pop("uid", None)
     return redirect(url_for("get_login"))
 
 # post handler for login
 # validates username and password
 # if valid routes to main_page.html, else refreshes page
-# TODO: hash password and see if its in the database
 # TODO: add a way to login as an administrator
 # TODO: add user to login session (user authentication slides)
 @app.route("/login/", methods=["POST"])
@@ -111,6 +129,8 @@ def login():
         conn = get_db()
         c = conn.cursor()
         user = c.execute('SELECT id, username, password, score FROM Users WHERE username=?;',(user_name,)).fetchone()
+        conn.commit()
+        conn.close()
         if user is not None and check_password(pwd, user[2], pep):
             expires = datetime.utcnow()+timedelta(hours=24)
             session["uid"] = user[0]
@@ -127,6 +147,7 @@ def login():
 # post handler for login, displays login.html
 @app.route("/login/", methods=["GET"])
 def get_login():
+    session.pop("uid", None)
     return render_template("login.html")
 
 # post handler for main
@@ -140,15 +161,18 @@ def main():
 # add: only display if user info is in login session, else route to login
 @app.route("/main/", methods=["GET"])
 def get_main():
+    check_login()
     uid = session.get("uid")
-    if uid is None:
-        return redirect(url_for('login'))
-    c = get_db().cursor()
-    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
-    if user is not None:
-        username = session["username"]
-        score = session["score"]
-        return render_template("main_page.html", username=username, score=score)
+    conn = get_db()
+    c = conn.cursor()
+    user = c.execute('SELECT id from Users where id=?',(uid,))
+    top_users = c.execute('select username, score from Users order by score desc limit 3;').fetchall()
+    conn.commit()
+    conn.close()
+    if user is not None and top_users is not None:
+        username = session.get("username")
+        score = session.get("score")
+        return render_template("main_page.html", username=username, score=score, top_users=top_users)
     return redirect(url_for("login"))
 
 # post handler for game
@@ -162,11 +186,13 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
+    check_login()
     uid = session.get("uid")
-    if uid is None:
-        return redirect(url_for('login'))
-    c = get_db().cursor()
-    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
+    conn = get_db()
+    c = conn.cursor()
+    user = c.execute('SELECT id from Users where id=?',(uid,))
+    conn.commit()
+    conn.close()
     if user is not None:
         return render_template("game_page.html")
     return redirect(url_for("login"))
@@ -181,11 +207,13 @@ def edit():
 # add: only display if user info in login session, else route to login
 @app.route("/edit/", methods=["GET"])
 def get_edit():
+    check_login()
     uid = session.get("uid")
-    if uid is None:
-        return redirect(url_for('login'))
-    c = get_db().cursor()
-    user = c.execute('SELECT id from Users where id=?',(session["uid"],))
+    conn = get_db()
+    c = conn.cursor()
+    user = c.execute('SELECT id from Users where id=?',(uid,))
+    conn.commit()
+    conn.close()
     if user is not None:
         username = session["username"]
         return render_template("edit_account.html", username=username)
@@ -226,6 +254,7 @@ def create():
         score = 0
         c.execute('INSERT INTO Users (username, password, score, isadmin) VALUES (?,?,?,?);',(user_name, hpwd, score, isadmin))
         conn.commit()
+        conn.close()
         # route to login and make user sign in
         return redirect(url_for("login"))
     else:
@@ -237,4 +266,5 @@ def create():
 # add: only display if user info in login session, else route to login
 @app.route("/create/", methods=["GET"])
 def get_create():
+    check_login()
     return render_template("create_account.html")
