@@ -91,11 +91,10 @@ def check_login():
     c = conn.cursor()
     user = c.execute('select * from Users where id=?;',(uid,))
     conn.commit()
-    conn.close()
     if user is None or exp is None or exp < datetime.utcnow():
-        print('Valid user')
-        print(user)
-        print(exp)
+        #print('Valid user')
+        #print(user)
+        #print(exp)
         return redirect(url_for("get_login"))
 
 # ROUTES
@@ -130,7 +129,6 @@ def login():
         c = conn.cursor()
         user = c.execute('SELECT id, username, password, score FROM Users WHERE username=?;',(user_name,)).fetchone()
         conn.commit()
-        conn.close()
         if user is not None and check_password(pwd, user[2], pep):
             expires = datetime.utcnow()+timedelta(hours=24)
             session["uid"] = user[0]
@@ -168,7 +166,6 @@ def get_main():
     user = c.execute('SELECT id from Users where id=?',(uid,))
     top_users = c.execute('select username, score from Users order by score desc limit 3;').fetchall()
     conn.commit()
-    conn.close()
     if user is not None and top_users is not None:
         username = session.get("username")
         score = session.get("score")
@@ -192,7 +189,6 @@ def get_game():
     c = conn.cursor()
     user = c.execute('SELECT id from Users where id=?',(uid,))
     conn.commit()
-    conn.close()
     if user is not None:
         return render_template("game_page.html")
     return redirect(url_for("login"))
@@ -201,7 +197,27 @@ def get_game():
 # add: validation for changes 
 @app.route("/edit/", methods=["POST"])
 def edit():
-    return render_template("edit_account.html")
+    name = request.form.get("name")
+    pwd = request.form.get("password")
+    valid = True
+    if name is None and name == "":
+        flash("Username cannot be blank")
+        valid = False
+    if valid and pwd is not None and pwd != "":
+        if len(pwd) < 8:
+            flash("Password must be longer than 8 characters")
+            valid = False
+    if valid:
+        uid = session.get("uid")
+        conn = get_db()
+        c = conn.cursor()
+        if pwd is not None and pwd != "":
+            hpwd = hash_password(pwd, pep)
+            c.execute('update Users set username=?, password=? where id=?;',(name,hpwd,uid))
+        else:
+            c.execute('update Users set username=? where id=?;',(name,uid))
+        conn.commit()
+    return redirect(url_for('get_edit'))
 
 # get handler for edit, displays edit_account.html
 # add: only display if user info in login session, else route to login
@@ -211,12 +227,12 @@ def get_edit():
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
-    user = c.execute('SELECT id from Users where id=?',(uid,))
+    user = c.execute('SELECT username, score from Users where id=?;',(uid,)).fetchone()
     conn.commit()
-    conn.close()
     if user is not None:
-        username = session["username"]
-        return render_template("edit_account.html", username=username)
+        username = user[0]
+        score = user[1]
+        return render_template("edit_account.html", username=username, score=score)
     return redirect(url_for("login"))
 
 # post handler for create
@@ -254,7 +270,6 @@ def create():
         score = 0
         c.execute('INSERT INTO Users (username, password, score, isadmin) VALUES (?,?,?,?);',(user_name, hpwd, score, isadmin))
         conn.commit()
-        conn.close()
         # route to login and make user sign in
         return redirect(url_for("login"))
     else:
@@ -268,3 +283,18 @@ def create():
 def get_create():
     check_login()
     return render_template("create_account.html")
+
+# GET handler to display search results
+@app.route("/search/", methods=["POST"])
+def get_results():
+    search = request.form.get("search")
+    if search is None:
+        return redirect(url_for('get_main'))
+    conn = get_db()
+    c = conn.cursor()
+    search_str = "\"%" + str(search) + "%\""
+    print(search_str)
+    results = c.execute('select username, score from Users where username like ?;',('%'+search+'%',))
+    conn.commit()
+    print(results)
+    return render_template("display_users.html", results=results)

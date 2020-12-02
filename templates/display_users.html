@@ -1,0 +1,28 @@
+<!-- Display search results page -->
+{% extends "template.j2" %}
+
+{% block title %}
+search
+{% endblock %}
+
+{% block content %}
+<div id="search-results">
+    <h2 class="title">Results</h2>
+    {% for result in results %}
+    <div class="row bg-light mt-5 align-items-center">
+        <div class="col-md-2">
+            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> {{result[0]}} </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> {{result[1]}} </h5>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
