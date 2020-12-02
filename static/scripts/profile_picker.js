@@ -1,6 +1,6 @@
 
 window.addEventListener("DOMContentLoaded", function() {
-	// attach a listener to call increment when Up button is clicked
+	//attach listeners for all of the profile images you can choose from
 	let pic1 = document.getElementById("king");
 	pic1.addEventListener("click", switching);
 
@@ -38,8 +38,11 @@ window.addEventListener("DOMContentLoaded", function() {
 	pic12.addEventListener("click", switching);
 });
 
+//change the profile image to the one clicked on in the selector box
 function switching(event) {
 	let current = document.getElementById("profile_pic");
 	current.src = event.target.src;
+	let hidden = document.getElementById("picture-holder");
+	hidden.value = event.target.src;
 }
 
