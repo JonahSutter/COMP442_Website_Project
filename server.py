@@ -182,7 +182,7 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
-    check_login()
+    #check_login()
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()

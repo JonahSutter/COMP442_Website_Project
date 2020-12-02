@@ -11,12 +11,13 @@ function goBack() {
     window.history.back();
 }
 </script>
-<script src="/static/scripts/gamescript.js"></script>
+<!-- <script src="/static/scripts/gamescript.js"></script> -->
 <link rel="stylesheet" type="text/css" href="/static/styles/gamestyle.css" />
 {% endblock %}
 
 {% block stylesheet %}
 <link rel="stylesheet" href="/static/styles/game_style.css">
+<link rel="stylesheet" href="/static/styles/chessboard-0.3.0.min.css">
 {% endblock %}
 
 {% block content %}
@@ -118,89 +119,12 @@ function goBack() {
 			</tr>
 	</table>
 -->
-	<table id="chessboard">
-		<tbody>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
+    <div id="board" style="width: 400px"></div>
+	<script src="/static/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/static/scripts/chess.min.js"></script>
+    <script src="/static/scripts/chessboard-0.3.0.min.js"></script>
+    <script src="/static/scripts/movecalc.js"></script>
+    <script src="/static/scripts/main.js"></script>
+    <script src="/static/scripts/boardconfig.js"></script>
 </div>
 {% endblock %}
