@@ -102,12 +102,12 @@ def check_login():
 # add: create database if not created
 @app.route("/", methods=["GET"])
 def index():
+    session.pop("uid", None)
     return redirect(url_for("get_login"))
 
 # post handler for login
 # validates username and password
 # if valid routes to main_page.html, else refreshes page
-# TODO: hash password and see if its in the database
 # TODO: add a way to login as an administrator
 # TODO: add user to login session (user authentication slides)
 @app.route("/login/", methods=["POST"])
@@ -144,6 +144,7 @@ def login():
 # post handler for login, displays login.html
 @app.route("/login/", methods=["GET"])
 def get_login():
+    session.pop("uid", None)
     return render_template("login.html")
 
 # post handler for main
@@ -157,6 +158,7 @@ def main():
 # add: only display if user info is in login session, else route to login
 @app.route("/main/", methods=["GET"])
 def get_main():
+    check_login()
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
@@ -180,6 +182,7 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
+    check_login()
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
@@ -219,6 +222,7 @@ def edit():
 # add: only display if user info in login session, else route to login
 @app.route("/edit/", methods=["GET"])
 def get_edit():
+    check_login()
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
@@ -282,6 +286,7 @@ def get_create():
 # GET handler to display search results
 @app.route("/search/", methods=["POST"])
 def get_results():
+    check_login()
     search = request.form.get("search")
     if search is None:
         return redirect(url_for('get_main'))
