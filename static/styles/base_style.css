@@ -12,3 +12,8 @@ footer {
 	background-color: #cabfab;
 	color: #cabfab;
 }
+
+#flash-messages {
+	position: fixed;
+	top: 5%;
+}

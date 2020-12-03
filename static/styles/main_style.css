@@ -1,3 +1,22 @@
+.profile-info {
+	margin-top: 5%;
+}
+
 #leaderboard {
-	margin-bottom: 7%;
+	margin-bottom: 5%;
+}
+
+.menu {
+	position: fixed;
+	top: 5%;
+	background-color: #52575d;
+	margin-left: .01em;
+	padding-bottom: 1em;
+	padding-top: 1em;
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+.player {
+	background-color: #cabfab;
 }

@@ -84,7 +84,7 @@ def check_login():
     uid = session.get("uid")
     try:
         exp = datetime.strptime(session.get("expires"), "Y-%m-%dT%H:%M:%SZ")
-    except ValueError:
+    except ValueError or TypeError:
         exp = None
     conn = get_db()
     c = conn.cursor()
