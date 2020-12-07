@@ -1,5 +1,5 @@
 var board,
-    game = new Chess('rnbqkbnr/ppppp2p/8/5pp1/4P2Q/8/PPPP1PPP/RNB1KBNR w KQkq - 1 3');
+    game = new Chess(); //Chess('rnbqkbnr/ppppp2p/8/5pp1/4P2Q/8/PPPP1PPP/RNB1KBNR w KQkq - 1 3');
 
 // Actions after any move
 var onMoveEnd = function(oldPos, newPos) {
@@ -48,7 +48,7 @@ var onSnapEnd = function() {
 // Configure board
 var cfg = {
   draggable: true,
-  position: 'rnbqkbnr/ppppp2p/8/5pp1/4P2Q/8/PPPP1PPP/RNB1KBNR w KQkq - 1 3',  //'start',
+  position: 'start',  // 'rnbqkbnr/ppppp2p/8/5pp1/4P2Q/8/PPPP1PPP/RNB1KBNR w KQkq - 1 3',
   // Handlers for user actions
   onMoveEnd: onMoveEnd,
   onDragStart: onDragStart,
