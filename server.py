@@ -337,6 +337,10 @@ def get_results():
 
 @app.route("/submitgame/", methods=["POST"])
 def submit_game():
+    print("Game submitted")
+    submission = request.get_json()
+    for key in submission:
+        print(key + ": " + str(submission[key]))
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for('get_game'))
@@ -344,7 +348,6 @@ def submit_game():
         conn = get_db()
         c = conn.cursor()
         score = c.execute('select score from Users where id=?;',(uid,))
-        submission = request.get_json()
         print(submission)
         if submission is not None:
             if (submission.get("status") == "win"):

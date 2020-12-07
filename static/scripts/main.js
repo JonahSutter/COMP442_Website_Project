@@ -2,11 +2,17 @@
 var makeMove = function(algo, skill=3) {  // CPU's move
   // exit if the game is over
   if (game.game_over() === true) {
-    console.log('game over');
-    if (game.in_checkmate()) {  // CPU has been checkmated, player wins
-      let request = new XMLHttpRequest();
-      request.open("POST", "/submitgame/");
-      request.send(JSON.stringify({"status":"win"}));
+    alert('Game Over');
+    console.log('Game Over');
+    
+    let request = new XMLHttpRequest();
+    request.open("POST", "/submitgame/");
+    request.setRequestHeader("Content-Type", "application/json");
+    console.log(game.turn())
+    if (game.in_checkmate()) {  // CPU in checkmate
+      request.send(JSON.stringify({"status":"win"}));  // Player wins
+    } else {
+      request.send(JSON.stringify({"status":"draw"}));
     }
   }
   // Calculate the best move, using chosen algorithm
@@ -58,17 +64,4 @@ var onDrop = function(source, target) {
   window.setTimeout(function() {
     makeMove(4, 3);
   }, 250);
-  
-  // Check to see the game's status
-  if (game.game_over()) {
-    if (game.in_checkmate()) {  // Player in checkmate, player loses
-      let request = new XMLHttpRequest();
-      request.open("POST", "/submitgame/");
-      request.send(JSON.stringify({"status":"loss"}));
-    } else {  // Draw
-      let request = new XMLHttpRequest();
-      request.open("POST", "/submitgame/");
-      request.send(JSON.stringify({"status":"draw"}));
-    }
-  }
 };
