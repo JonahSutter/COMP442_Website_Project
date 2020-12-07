@@ -180,6 +180,30 @@ def get_main():
 # add: waiting for requirements
 @app.route("/game/", methods=["POST"])
 def game():
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('get_game'))
+    else:
+        conn = get_db()
+        c = conn.cursor()
+        score = c.execute('select score from Users where id=?;',(uid,))
+        submission = request.get_json()
+        print(submission)
+        if submission is not None:
+            if (submission.get("status") == "win"):
+                score += 100
+                c.execute('update Users set score=? where id=?;',(score,uid))
+            elif (submission.get("status") == "lose"):
+                score -= 50
+                c.execute('update Users set score=? where id=?;',(score,uid))
+            elif (submission.get("status") == "draw"):
+                score += 10
+                c.execute('update Users set score=? where id=?;',(score,uid))
+        else:
+            print("Could not determine state of game")
+        conn.commit()    
+        # Send them back to the home page
+        return redirect(url_for('get_main'))
     return render_template("game_page.html")
 
 # get handler for game, displays game_page.html
@@ -310,7 +334,6 @@ def get_results():
 
 @app.route("/submitgame/", methods=["POST"])
 def submit_game():
-    # Do something, Taipu
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for('get_game'))
@@ -334,4 +357,4 @@ def submit_game():
             print("Could not determine state of game")
         conn.commit()    
         # Send them back to the home page
-        return redirect("/")
+        return redirect(url_for('get_main'))

@@ -5,7 +5,7 @@ var makeMove = function(algo, skill=3) {  // CPU's move
     console.log('game over');
     if (game.in_checkmate()) {  // CPU has been checkmated, player wins
       let request = new XMLHttpRequest();
-      request.open("POST", "http://localhost:5000/submitgame/");
+      request.open("POST", "/submitgame/");
       request.send(JSON.stringify({"status":"win"}));
     }
   }
@@ -63,11 +63,11 @@ var onDrop = function(source, target) {
   if (game.game_over()) {
     if (game.in_checkmate()) {  // Player in checkmate, player loses
       let request = new XMLHttpRequest();
-      request.open("POST", "http://localhost:5000/submitgame/");
+      request.open("POST", "/submitgame/");
       request.send(JSON.stringify({"status":"loss"}));
     } else {  // Draw
       let request = new XMLHttpRequest();
-      request.open("POST", "http://localhost:5000/submitgame/");
+      request.open("POST", "/submitgame/");
       request.send(JSON.stringify({"status":"draw"}));
     }
   }
