@@ -169,12 +169,12 @@ def get_main():
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
-    user = c.execute('SELECT id, profileimg from Users where id=?',(uid,)).fetchone()
+    user = c.execute('SELECT id, profileimg, username, score from Users where id=?',(uid,)).fetchone()
     top_users = c.execute('select username, score, profileimg from Users order by score desc limit 3;').fetchall()
     conn.commit()
     if user is not None and top_users is not None:
-        username = session.get("username")
-        score = session.get("score")
+        username = user[2]
+        score = user[3]
         profileimg = user[1]
         return render_template("main_page.html", username=username, score=score, top_users=top_users, profileimg=profileimg)
     return redirect(url_for("login"))
@@ -183,30 +183,6 @@ def get_main():
 # add: waiting for requirements
 @app.route("/game/", methods=["POST"])
 def game():
-    uid = session.get("uid")
-    if uid is None:
-        return redirect(url_for('get_game'))
-    else:
-        conn = get_db()
-        c = conn.cursor()
-        score = c.execute('select score from Users where id=?;',(uid,))
-        submission = request.get_json()
-        print(submission)
-        if submission is not None:
-            if (submission.get("status") == "win"):
-                score += 100
-                c.execute('update Users set score=? where id=?;',(score,uid))
-            elif (submission.get("status") == "lose"):
-                score -= 50
-                c.execute('update Users set score=? where id=?;',(score,uid))
-            elif (submission.get("status") == "draw"):
-                score += 10
-                c.execute('update Users set score=? where id=?;',(score,uid))
-        else:
-            print("Could not determine state of game")
-        conn.commit()    
-        # Send them back to the home page
-        return redirect(url_for('get_main'))
     return render_template("game_page.html")
 
 # get handler for game, displays game_page.html
@@ -279,11 +255,14 @@ def get_edit():
 @app.route("/create/", methods=["POST"])
 def create():
     data = dict()
-    fields = ["create-name", "create-password", "create-confirm-password"]
+    fields = ["create-name", "create-password", "create-confirm-password", "picture-holder"]
     for field in fields:
         data[field] = request.form.get(field)
     user_name = data["create-name"]
     password = data["create-password"]
+    raw_img = request.form.get("picture-holder")
+    img = raw_img.replace('http://localhost:5000','')
+    print(img)
     valid = True
     for field in fields:
         if data[field] is None or data[field] == "":
@@ -306,7 +285,7 @@ def create():
         # NOTE: to create admin account change value for admin to be a 1
         isadmin = 0
         score = 0
-        c.execute('INSERT INTO Users (username, password, score, isadmin) VALUES (?,?,?,?);',(user_name, hpwd, score, isadmin))
+        c.execute('INSERT INTO Users (username, password, score, isadmin, profileimg) VALUES (?,?,?,?,?);',(user_name, hpwd, score, isadmin,img))
         conn.commit()
         # route to login and make user sign in
         return redirect(url_for("login"))
@@ -337,33 +316,29 @@ def get_results():
 
 @app.route("/submitgame/", methods=["POST"])
 def submit_game():
-    print("Game submitted")
     submission = request.get_json()
-    for key in submission:
-        print(key + ": " + str(submission[key]))
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for('get_game'))
     else:
-        conn = get_db()
-        c = conn.cursor()
-        score = c.execute('select score from Users where id=?;',(uid,))
         print(submission)
         if submission is not None:
+            conn = get_db()
+            c = conn.cursor()
             if (submission.get("status") == "win"):
-                score += 100
-                c.execute('update Users set score=? where id=?;',(score,uid))
+                c.execute('update Users set score=score+100 where id=?;',(uid,))
+                conn.commit()
             elif (submission.get("status") == "lose"):
-                score -= 50
-                c.execute('update Users set score=? where id=?;',(score,uid))
+                c.execute('update Users set score=score-50 where id=?;',(uid,))
+                conn.commit()
             elif (submission.get("status") == "draw"):
-                score += 10
-                c.execute('update Users set score=? where id=?;',(score,uid))
+                c.execute('update Users set score=score+10 where id=?;',(uid,))
+                conn.commit()
+            return redirect(url_for('get_main'))
         else:
             print("Could not determine state of game")
-        conn.commit()    
-        # Send them back to the home page
-        return redirect(url_for('get_main'))
+            return redirect(url_for('get_game'))
+        
 
 @app.route("/admin/", methods=["GET"])
 def get_admin():
