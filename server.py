@@ -311,13 +311,27 @@ def get_results():
 @app.route("/submitgame/", methods=["POST"])
 def submit_game():
     # Do something, Taipu
-    submission = request.get_json()
-    if (submission.get("status") == "win"):
-        pass
-    elif (submission.get("status") == "lose"):
-        pass
-    elif (submission.get("status") == "draw"):
-        pass
-        
-    # Send them back to the home page
-    return redirect("/")
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('get_game'))
+    else:
+        conn = get_db()
+        c = conn.cursor()
+        score = c.execute('select score from Users where id=?;',(uid,))
+        submission = request.get_json()
+        print(submission)
+        if submission is not None:
+            if (submission.get("status") == "win"):
+                score += 100
+                c.execute('update Users set score=? where id=?;',(score,uid))
+            elif (submission.get("status") == "lose"):
+                score -= 50
+                c.execute('update Users set score=? where id=?;',(score,uid))
+            elif (submission.get("status") == "draw"):
+                score += 10
+                c.execute('update Users set score=? where id=?;',(score,uid))
+        else:
+            print("Could not determine state of game")
+        conn.commit()    
+        # Send them back to the home page
+        return redirect("/")
