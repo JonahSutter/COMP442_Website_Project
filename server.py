@@ -130,7 +130,7 @@ def login():
     if valid:
         conn = get_db()
         c = conn.cursor()
-        user = c.execute('SELECT id, username, password, score FROM Users WHERE username=?;',(user_name,)).fetchone()
+        user = c.execute('SELECT id, username, password, score, isadmin FROM Users WHERE username=?;',(user_name,)).fetchone()
         conn.commit()
         if user is not None and check_password(pwd, user[2], pep):
             expires = datetime.utcnow()+timedelta(hours=24)
@@ -138,6 +138,9 @@ def login():
             session["expires"] = expires.strftime("Y-%m-%dT%H:%M:%SZ")
             session["username"] = user[1]
             session["score"] = user[3]
+            isadmin = user[4]
+            if isadmin == 1:
+                return redirect(url_for("get_admin"))    
             return redirect(url_for("main"))
         else:
             flash("Invalid username or password")
@@ -358,3 +361,25 @@ def submit_game():
         conn.commit()    
         # Send them back to the home page
         return redirect(url_for('get_main'))
+
+@app.route("/admin/", methods=["GET"])
+def get_admin():
+    check_login()
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for('get_login'))
+    conn = get_db()
+    c = conn.cursor()
+    all_users = c.execute('select username, profileimg, score, id from Users').fetchall()
+    conn.commit()
+    return render_template("admin.html", all_users=all_users)
+
+@app.route("/admin/", methods=["POST"])
+def post_admin():
+    delete_user = request.form.get("delete")
+    if delete_user is not None:
+        conn = get_db()
+        c = conn.cursor()
+        c.execute('delete from Users where id=?;',(delete_user,))
+        conn.commit()
+    return redirect(url_for('get_admin'))

@@ -1,0 +1,33 @@
+<!-- Admin page -->
+{% extends "template.j2" %}
+
+{% block title %}
+Admin
+{% endblock %}
+
+{% block content %}
+<div id="search-results">
+    <h2 class="title">Users</h2>
+    <form method="post" action="/admin/">
+    {% for user in all_users %}
+    <div class="row bg-light mt-5 align-items-center">
+        <div class="col-md-2">
+            <img src="{{user[1]}}" alt="Leaderboard Profile Picture" width="50" height="50">
+        </div>
+        <div class="col-md-4">
+            <h5> {{user[0]}} </h5>
+        </div>
+        <div class="col-md-4">
+            <h5> {{user[2]}} </h5>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" name="delete" value="{{ user[3] }}"> Delete </button>
+        </div>
+        <div class="col-md-2 text-right">
+            <h4> > </h4>
+        </div>
+    </div>
+    {% endfor %}
+    </form>
+</div>
+{% endblock %}
