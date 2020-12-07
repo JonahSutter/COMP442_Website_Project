@@ -7,10 +7,11 @@ Create Account
 
 {% block scripts %}
 <script>
-function goBack() {
-    window.history.back();
-}
-</script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
+    <script src="/static/scripts/profile_picker.js"> </script>
 {% endblock %}
 
 {% block stylesheet %}
@@ -47,12 +48,17 @@ function goBack() {
             <div class="col-md-6">
                 <button class="form-control btn btn-primary" id="submit-button" onclick="return true"> Create Account </button>
                 <!-- Add <submit> and <option> tags for profile image picker -->
+                <input id="picture-holder" type="text" class="form-control" name="picture-holder" value="/static/images/profile_pictures/default_profile.png" hidden>
             </div>
         </div>
     </form>
 </div>
 
 <div class="container profile-picture-picker">
+
+    <div class="profilepic d-flex mt-5 pt-5 justify-content-center">
+        <img src="/static/images/profile_pictures/default_profile.png" id="profile_pic" alt="Profile Picture" width="200" height="200">
+    </div>
 
     <div class="row mt-5">
         <div class="col-md-4 mx-auto bg-secondary text-center">
@@ -62,46 +68,46 @@ function goBack() {
 
     <div class="row d-flex justify-content-center">
         <div class="col-md-1 bg-secondary pt-2">
-            <img src="/static/images/profile_pictures/pikachu.jpg" id="pikachu" alt="Profile Picture Option" width="50" height="50">
-        </div>
-        <div class="col-md-1 bg-secondary pt-2">
-            <img src="/static/images/profile_pictures/cat.jpg" id="cat" alt="Profile Picture Option" width="50" height="50">
-        </div>
-        <div class="col-md-1 bg-secondary pt-2">
             <img src="/static/images/profile_pictures/king.png" id="king" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary pt-2">
             <img src="/static/images/profile_pictures/queen.png" id="queen" alt="Profile Picture Option" width="50" height="50">
         </div>
-    </div>
-
-    <div class="row d-flex justify-content-center">
         <div class="col-md-1 bg-secondary pt-2">
             <img src="/static/images/profile_pictures/rook.png" id="rook" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary pt-2">
             <img src="/static/images/profile_pictures/bishop.png" id="bishop" alt="Profile Picture Option" width="50" height="50">
         </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
         <div class="col-md-1 bg-secondary pt-2">
-            <img src="/static/images/profile_pictures/knight.png" id="'knight" alt="Profile Picture Option" width="50" height="50">
+            <img src="/static/images/profile_pictures/knight.png" id="knight" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary pt-2">
             <img src="/static/images/profile_pictures/pawn.png" id="pawn" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/images/profile_pictures/pikachu.jpg" id="pikachu" alt="Profile Picture Option" width="50" height="50">
+        </div>
+        <div class="col-md-1 bg-secondary pt-2">
+            <img src="/static/images/profile_pictures/cat.jpg" id="cat" alt="Profile Picture Option" width="50" height="50">
         </div>
     </div>
 
     <div class="row d-flex justify-content-center">
         <div class="col-md-1 bg-secondary pt-2 pb-3">
-            <img src="/static/images/profile_pictures/default_profile.png" alt="Profile Picture Option" width="50" height="50">
+            <img src="/static/images/profile_pictures/dog.jpg" id="dog" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary py-2">
-            <img src="/static/images/profile_pictures/default_profile.png" alt="Profile Picture Option" width="50" height="50">
+            <img src="/static/images/profile_pictures/elephant.jpg" id="elephant" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary py-2">
-            <img src="/static/images/profile_pictures/default_profile.png" alt="Profile Picture Option" width="50" height="50">
+            <img src="/static/images/profile_pictures/penguin.jpg" id="penguin" alt="Profile Picture Option" width="50" height="50">
         </div>
         <div class="col-md-1 bg-secondary py-2">
-            <img src="/static/images/profile_pictures/default_profile.png" alt="Profile Picture Option" width="50" height="50">
+            <img src="/static/images/profile_pictures/fish.jpg" id="fish" alt="Profile Picture Option" width="50" height="50">
         </div>
     </div>
 </div>
