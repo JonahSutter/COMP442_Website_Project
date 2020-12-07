@@ -84,8 +84,12 @@ def check_login():
     uid = session.get("uid")
     try:
         exp = datetime.strptime(session.get("expires"), "Y-%m-%dT%H:%M:%SZ")
-    except ValueError or TypeError:
+    except TypeError:
         exp = None
+        return redirect(url_for("get_login"))
+    except ValueError:
+        exp = None
+        return redirect(url_for("get_login"))
     conn = get_db()
     c = conn.cursor()
     user = c.execute('select * from Users where id=?;',(uid,))
@@ -162,13 +166,14 @@ def get_main():
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
-    user = c.execute('SELECT id from Users where id=?',(uid,))
-    top_users = c.execute('select username, score from Users order by score desc limit 3;').fetchall()
+    user = c.execute('SELECT id, profileimg from Users where id=?',(uid,)).fetchone()
+    top_users = c.execute('select username, score, profileimg from Users order by score desc limit 3;').fetchall()
     conn.commit()
     if user is not None and top_users is not None:
         username = session.get("username")
         score = session.get("score")
-        return render_template("main_page.html", username=username, score=score, top_users=top_users)
+        profileimg = user[1]
+        return render_template("main_page.html", username=username, score=score, top_users=top_users, profileimg=profileimg)
     return redirect(url_for("login"))
 
 # post handler for game
@@ -182,7 +187,7 @@ def game():
 # add: waiting for requirements
 @app.route("/game/", methods=["GET"])
 def get_game():
-    #check_login()
+    check_login()
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
@@ -198,6 +203,9 @@ def get_game():
 def edit():
     name = request.form.get("name")
     pwd = request.form.get("password")
+    raw_img = request.form.get("picture-holder")
+    img = raw_img.replace('http://localhost:5000','')
+    print(img)
     valid = True
     if name is None and name == "":
         flash("Username cannot be blank")
@@ -206,15 +214,18 @@ def edit():
         if len(pwd) < 8:
             flash("Password must be longer than 8 characters")
             valid = False
+    if valid and img is None and img == "":
+        flash("Profile image cannot be blank")
+        valid = False
     if valid:
         uid = session.get("uid")
         conn = get_db()
         c = conn.cursor()
         if pwd is not None and pwd != "":
             hpwd = hash_password(pwd, pep)
-            c.execute('update Users set username=?, password=? where id=?;',(name,hpwd,uid))
+            c.execute('update Users set username=?, password=?, profileimg=? where id=?;',(name,hpwd,img,uid))
         else:
-            c.execute('update Users set username=? where id=?;',(name,uid))
+            c.execute('update Users set username=?, profileimg=? where id=?;',(name,img,uid))
         conn.commit()
     return redirect(url_for('get_edit'))
 
@@ -226,12 +237,13 @@ def get_edit():
     uid = session.get("uid")
     conn = get_db()
     c = conn.cursor()
-    user = c.execute('SELECT username, score from Users where id=?;',(uid,)).fetchone()
+    user = c.execute('SELECT username, score, profileimg from Users where id=?;',(uid,)).fetchone()
     conn.commit()
     if user is not None:
         username = user[0]
         score = user[1]
-        return render_template("edit_account.html", username=username, score=score)
+        profileimg = user[2]
+        return render_template("edit_account.html", username=username, score=score, profileimg=profileimg)
     return redirect(url_for("login"))
 
 # post handler for create
@@ -265,7 +277,7 @@ def create():
             return redirect(url_for("get_create"))
         hpwd = hash_password(password, pep)
         # NOTE: to create admin account change value for admin to be a 1
-        isadmin = 1
+        isadmin = 0
         score = 0
         c.execute('INSERT INTO Users (username, password, score, isadmin) VALUES (?,?,?,?);',(user_name, hpwd, score, isadmin))
         conn.commit()
@@ -292,9 +304,21 @@ def get_results():
         return redirect(url_for('get_main'))
     conn = get_db()
     c = conn.cursor()
-    search_str = "\"%" + str(search) + "%\""
-    print(search_str)
-    results = c.execute('select username, score from Users where username like ?;',('%'+search+'%',))
+    results = c.execute('select username, score, profileimg from Users where username like ?;',('%'+search+'%',))
     conn.commit()
-    print(results)
     return render_template("display_users.html", results=results)
+
+
+@app.route("/submitgame/", methods=["POST"])
+def submit_game():
+    # Do something, Taipu
+    submission = request.get_json()
+    if (submission.get("status") == "win"):
+        pass
+    elif (submission.get("status") == "lose"):
+        pass
+    elif (submission.get("status") == "draw"):
+        pass
+        
+    # Send them back to the home page
+    return redirect("/")

@@ -11,7 +11,7 @@ search
     {% for result in results %}
     <div class="row bg-light mt-5 align-items-center">
         <div class="col-md-2">
-            <img src="/static/profile.png" alt="Leaderboard Profile Picture" width="50" height="50">
+            <img src="{{result[2]}}" alt="Leaderboard Profile Picture" width="50" height="50">
         </div>
         <div class="col-md-4">
             <h5> {{result[0]}} </h5>
