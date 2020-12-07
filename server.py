@@ -298,3 +298,18 @@ def get_results():
     conn.commit()
     print(results)
     return render_template("display_users.html", results=results)
+
+    
+@app.route("/submitgame/", methods=["POST"])
+def submit_game():
+    # Do something, Taipu
+    submission = request.get_json()
+    if (submission.get("status") == "win"):
+        pass
+    elif (submission.get("status") == "lose"):
+        pass
+    elif (submission.get("status") == "draw"):
+        pass
+        
+    # Send them back to the home page
+    return redirect("/")

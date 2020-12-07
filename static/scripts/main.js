@@ -1,9 +1,13 @@
 // Computer makes a move with algorithm choice and skill/depth level
-var makeMove = function(algo, skill=3) {
+var makeMove = function(algo, skill=3) {  // CPU's move
   // exit if the game is over
   if (game.game_over() === true) {
     console.log('game over');
-    return;
+    if (game.in_checkmate()) {  // CPU has been checkmated, player wins
+      let request = new XMLHttpRequest();
+      request.open("POST", "http://localhost:5000/submitgame/");
+      request.send(JSON.stringify({"status":"win"}));
+    }
   }
   // Calculate the best move, using chosen algorithm
   if (algo === 1) {
@@ -54,4 +58,17 @@ var onDrop = function(source, target) {
   window.setTimeout(function() {
     makeMove(4, 3);
   }, 250);
+  
+  // Check to see the game's status
+  if (game.game_over()) {
+    if (game.in_checkmate()) {  // Player in checkmate, player loses
+      let request = new XMLHttpRequest();
+      request.open("POST", "http://localhost:5000/submitgame/");
+      request.send(JSON.stringify({"status":"loss"}));
+    } else {  // Draw
+      let request = new XMLHttpRequest();
+      request.open("POST", "http://localhost:5000/submitgame/");
+      request.send(JSON.stringify({"status":"draw"}));
+    }
+  }
 };
