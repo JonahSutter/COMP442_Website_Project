@@ -59,7 +59,7 @@ function goBack() {
             <div class="col-md-2">
                 <button class="form-control btn btn-primary" id="save-button" onclick="return true"> Change </button>
                 <!-- Add <submit> and <option> tags for profile image picker -->
-                <input id="picture-holder" type="text" class="form-control" name="picture-holder" value="/static/images/profile_pictures/default_profile.png" hidden>
+                <input id="picture-holder" type="text" class="form-control" name="picture-holder" value="{{ profileimg }}" hidden>
             </div>
         </div>
     </form>
