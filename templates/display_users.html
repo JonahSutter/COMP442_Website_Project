@@ -5,11 +5,15 @@
 search
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/search_style.css">
+{% endblock %}
+
 {% block content %}
 <div id="search-results">
     <h2 class="title">Results</h2>
     {% for result in results %}
-    <div class="row bg-light mt-5 align-items-center">
+    <div class="row mt-5 align-items-center player">
         <div class="col-md-2">
             <img src="{{result[2]}}" alt="Leaderboard Profile Picture" width="50" height="50">
         </div>

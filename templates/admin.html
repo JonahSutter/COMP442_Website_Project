@@ -5,12 +5,16 @@
 Admin
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/styles/admin_style.css">
+{% endblock %}
+
 {% block content %}
 <div id="search-results">
     <h2 class="title">Users</h2>
     <form method="post" action="/admin/">
     {% for user in all_users %}
-    <div class="row bg-light mt-5 align-items-center">
+    <div class="row mt-5 align-items-center player">
         <div class="col-md-2">
             <img src="{{user[1]}}" alt="Leaderboard Profile Picture" width="50" height="50">
         </div>

@@ -1,5 +1,5 @@
 .profile-info {
-	margin-top: 5%;
+	margin-top: 3em;
 }
 
 #leaderboard {
@@ -7,8 +7,8 @@
 }
 
 .menu {
-	position: fixed;
-	top: 5%;
+	position: sticky;
+	top: 3em;
 	background-color: #52575d;
 	margin-left: .01em;
 	padding-bottom: 1em;

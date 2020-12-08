@@ -1,0 +1,14 @@
+.player {
+	background-color: #cabfab;
+}
+
+button {
+	border: none;
+	background-color: #cabfab;
+	color: red;
+}
+
+button:hover {
+	color: white;
+	background-color: red;
+}
